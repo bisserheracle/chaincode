@@ -23,3 +23,7 @@ Containers::Array<char> WavImporter::doData() {
         return {};
     }
 //helo
+    if(Containers::StringView{_in}.hasSuffix("TRUEVISION-XFILE.\0"_s)) {
+        if(srcPixels.size() < sizeof(Implementation::TgaFooter)) {
+            Error{} << "Trade::TgaImporter::image2D(): TGA 2 file too short, expected at least" << sizeof(Implementation::TgaHeader) + sizeof(Implementation::TgaFooter) << "bytes but got" << _in.size();
+            return {};
